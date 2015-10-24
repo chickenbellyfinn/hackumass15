@@ -7,35 +7,64 @@ function submitCandy(req, callback) {
 	var user = req.user;
 	var lat = req.lat;
 	var lon = req.lon;
-	var candyName = req.candy[name];
-	var candyCalories = req.candy[calories];
+	var candyName = req.candy.name;
+	var candyCalories = req.candy.calories;
 
-	getAddress(lat, lon, function(address) {
+	locToAddr.getAddress(lat, lon, function(address) {
 		dbClient(function (db) {
-			var locResults = db.globaloc.findOne({'loc.addr': address});
-			var results = db.candycol.findOne({name: candyName});
-			if (!results) {
-				db.candycol.insert({name: candyName, calories: candyCalories}, function(err, docInserted) {
-					if (locResults) {
-						locResults.candy.push({candy: docInserted._id, count: 1});
-						db.globalloc.update({_id: locResults._id}, locResults);
-					}
+			getLocation(db, address, lat, lon, function (location) {
+				getCandy(db, candyName, candyCalories, function (candy) {
+					getCandyCount(db, location._id, candy._id, function (candyCount) {
+						var candyCounts = db.collection('candyCounts');
+						candyCounts.update({ '_id': candyCount._id }, { $inc: { 'count': 1 } });
+					});
 				});
-			}
-			else {
-				if (locResults) {
-					for (var i = locResults.candy.length - 1; i >= 0; i--) {
-						if(locResults.candy[i].name === candyName) {
-							locResults.candy[i].count++;
-							break;
-						}
-					};
-					db.globalloc.update({_id: locResults._id}, locResults);
-				}
-			}
+			});
 		});
 
 		callback(address);
+	});
+}
+
+function getLocation(db, address, lat, lon, callback) {
+	var locations = db.collection('locations');
+	locations.findOne({ 'addr': address }, function (err, location) {
+		if (!location) {
+			locations.insert({ 'lat': lat, 'lon': lon, 'addr': address }, function (err, location) {
+				callback(location);
+			});
+		}
+		else {
+			callback(location);
+		}
+	});
+}
+
+function getCandy(db, name, calories, callback) {
+	var candies = db.collection('candies');
+	candies.findOne({ 'name': name }, function (err, candy) {
+		if (!candy) {
+			candies.insert({ 'name': name, 'calories': calories }, function (err, candy) {
+				callback(candy);
+			});
+		}
+		else {
+			callback(candy);
+		}
+	});
+}
+
+function getCandyCount(db, locID, candyID, callback) {
+	var candyCounts = db.collection('candyCounts');
+	candyCounts.findOne({ 'loc': locID, 'candy': candyID }, function (err, candyCount) {
+		if (!candyCount) {
+			candyCounts.insert({ 'loc': locID, 'candy': candyID, 'count': 0 }, function (err, candyCount) {
+				callback(candyCount);
+			});
+		}
+		else {
+			callback(candyCount);
+		}
 	});
 }
 

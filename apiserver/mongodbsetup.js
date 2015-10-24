@@ -8,11 +8,14 @@ function getConnection(callback) {
 		callback(db);
 	}
 	else {
-		dbClient.connect("mongodb://halloweenapp.cloudapp.net:27017/halloweenapp", function(err, dbconn) {
+		dbClient.connect("mongodb://localhost/halloweenapp", function(err, dbconn) {
 		  if (!err) {
 		    console.log("Connection made");
 		    db = dbconn;
 		  	callback(db);
+		  }
+		  else {
+		  	console.log("Error connecting: " + err);
 		  }
 		});
 	}
