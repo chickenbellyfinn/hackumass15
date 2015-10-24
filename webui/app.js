@@ -7,6 +7,21 @@ function apiGet(method, data) {
   });
 }
 
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
 var app = angular.module('halloweenApp', []);
 
 app.controller('MapController', function ($scope) {
@@ -17,32 +32,46 @@ app.controller('MapController', function ($scope) {
       showDashboard: false
   });
 
+  function login(username) {
+    apiGet('user_loc', { user: username })
+      .success(function (loc) {
+        map.entities.push(new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(loc.lat, loc.lon), {
+          icon: 'pumpkin.png',
+          width: 50,
+          height: 50
+        }));
+      });
+  }
 
-  apiGet('user_loc', { user: 'chicken' })
-    .success(function (loc) {
-      map.entities.push(new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(loc.lat, loc.lon), {
-        icon: "pumpkin.png",
-        width: 50,
-        height: 50
-      }));
-    });
+  var $loginModal = $('#loginModal');
+  var $loginButton = $('#loginButton');
+  var $userNameInput = $('#userNameInput');
+
+  $loginModal.modal({ show: false });
+
+  $loginButton.click(function () {
+    login($userNameInput.val());
+    $loginModal.modal('hide');
+  });
+
+  $loginModal.modal('show');
 });
 
 app.controller('ServerDataController', function ($scope) {
-  apiGet('all_data')
-    .success(function (data) {
-      console.log(data);
+  // apiGet('all_data')
+  //   .success(function (data) {
+  //     console.log(data);
 
-      _.forEach(data.users, function (user) {
-        user.lastLocation = _.find(data.locations, function (l) { return l._id === user.lastLocation; });
-      });
+  //     _.forEach(data.users, function (user) {
+  //       user.lastLocation = _.find(data.locations, function (l) { return l._id === user.lastLocation; });
+  //     });
 
-      _.merge($scope, data);
-      $scope.$apply();
-    })
-    .fail(function () {
-      console.log('Error getting server data');
-    });
+  //     _.merge($scope, data);
+  //     $scope.$apply();
+  //   })
+  //   .fail(function () {
+  //     console.log('Error getting server data');
+  //   });
 });
 
 $(function () {

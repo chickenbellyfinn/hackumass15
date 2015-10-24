@@ -3,6 +3,17 @@ script(src="app.js")
 
 .app(ng-app="halloweenApp")
     .map-ui(ng-controller="MapController")
+        #loginModal.modal.modal-fade(tabindex="-1")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(type="button" data-dismiss="modal") &times;
+                        h4.modal-title Login
+                    .modal-body
+                        input#userNameInput(type="text")
+                    .modal-footer
+                        button.btn.btn-default(type="button" data-dismiss="modal") Close
+                        button#loginButton.btn.btn-primary(type="button") Login
         #map
     .server-data(ng-controller="ServerDataController")
         .row
