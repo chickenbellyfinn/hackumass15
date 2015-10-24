@@ -34,6 +34,6 @@ function getDirections(loc1, loc2, callback) {
 	}).end();
 }
 
-module.exports.getDirections = getDirections;
+module.exports = getDirections;
 
 //getDirections("154 Hicks Way, Amherst, MA, 01003","340 Thatcher Rd Amherst MA 01003", function(dir_array) { console.log(dir_array) });

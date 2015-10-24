@@ -1,4 +1,5 @@
 var dbClient = require('./mongodbsetup');
+var getDirections = require('./Directions');
 var _ = require('lodash');
 
 // req: JSON object containing house request parameters
@@ -9,7 +10,7 @@ function getBestHouse(req, callback) {
 
 	dbClient(function(db) {
 		var regexp = RegExp(_.join(keywords, '|'));
-		db.collection("candies").find({'name': {$regex: regexp}).toArray(function(err, candiesRes) {
+		db.collection("candies").find({'name': {$regex: regexp}}).toArray(function(err, candiesRes) {
 			db.collection("candyCounts").find({'candy': {$in: _.pluck(candiesRes, "_id")}}).toArray(function (err, candyCountRes) {
 				var countList = _.countBy(candyCountRes, 'loc');
 				var bestCount = _.max(countList);
@@ -20,9 +21,9 @@ function getBestHouse(req, callback) {
 				db.collection("locations").findOne({'_id': bestLocation}, function(err, entity) {
 					var add2 = entity.addr;
 					var add1;
-					db.collection("users").find({user}, function(results) {
+					db.collection("users").find({'name': user}, function(results) {
 						var id = results.lastLocation;
-						db.collection("locations").find({id}, function(loc) {
+						db.collection("locations").find({'_id': id}, function(loc) {
 							add1 = loc.addr;
 							getDirections(add1, add2, callback);
 						});
