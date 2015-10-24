@@ -2,10 +2,10 @@ HACS: Halloween Application for Candy Seekers
 ====================================
 
 Authors:
-* Akshay Thejaswi
-* Daniel Beckwith
-* Aditya Nivarthi
-* Vivek Krishnamurthy
+* [Akshay Thejaswi](https://github.com/chickenbellyfinn)
+* [Daniel Beckwith](https://github.com/dbeckwith)
+* [Aditya Nivarthi](https://github.com/SIZMW)
+* [Vivek Krishnamurthy](https://github.com/vivekkmurthy)
 
 Purpose:
 * The purpose of this app and server is to crowdsource data from children on Halloween about different houses and locations giving out candy. The information taken from the children provide locations and the type of candy being given out at those locations.
