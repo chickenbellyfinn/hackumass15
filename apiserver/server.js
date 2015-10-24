@@ -29,7 +29,7 @@ app.post('/submit_candy', function (req, res) {
 
 app.get('/best_house', function (req, res) {
   console.log(req.body);
-  res.type('text/plain');
+  res.type('application/json');
   getBestHouse(req.body, function (bestHouse) {
     console.log(bestHouse);
     res.send(bestHouse);
