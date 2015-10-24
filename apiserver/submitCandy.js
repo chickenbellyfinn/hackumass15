@@ -31,7 +31,7 @@ function getLocation(db, address, lat, lon, callback) {
 	locations.findOne({ 'addr': address }, function (err, location) {
 		if (!location) {
 			locations.insert({ 'lat': lat, 'lon': lon, 'addr': address }, function (err, location) {
-				callback(location);
+				callback(location.ops[0]);
 			});
 		}
 		else {
@@ -45,7 +45,7 @@ function getCandy(db, name, calories, callback) {
 	candies.findOne({ 'name': name }, function (err, candy) {
 		if (!candy) {
 			candies.insert({ 'name': name, 'calories': calories }, function (err, candy) {
-				callback(candy);
+				callback(candy.ops[0]);
 			});
 		}
 		else {
@@ -59,7 +59,7 @@ function getCandyCount(db, locID, candyID, callback) {
 	candyCounts.findOne({ 'loc': locID, 'candy': candyID }, function (err, candyCount) {
 		if (!candyCount) {
 			candyCounts.insert({ 'loc': locID, 'candy': candyID, 'count': 0 }, function (err, candyCount) {
-				callback(candyCount);
+				callback(candyCount.ops[0]);
 			});
 		}
 		else {
