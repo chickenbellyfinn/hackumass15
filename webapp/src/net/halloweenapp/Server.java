@@ -13,9 +13,6 @@ import java.net.InetSocketAddress;
  */
 public class Server {
 
-    public static final String HOSTNAME = "halloweenapp.cloudapp.net";
-    public static final int PORT = 80;
-
     private static Server instance;
 
     public static Server getInstance() {
@@ -30,8 +27,8 @@ public class Server {
         running = false;
     }
 
-    public void start() {
-        InetSocketAddress addr = new InetSocketAddress(HOSTNAME, PORT);
+    public void start(String hostname, int port) {
+        InetSocketAddress addr = new InetSocketAddress(hostname, port);
         try {
             server = HttpServer.create(addr, 0);
             server.createContext("/", new HttpHandler() {
