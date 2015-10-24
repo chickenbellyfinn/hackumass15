@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"  tools:context=".MainActivity"
+    >
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_candy"
+        android:layout_margin="5dp"
+        android:visibility="visible"
+        android:divider="@null"></ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="@color/purpleBG"
+        app:rippleColor="#FFF"
+        android:src="@drawable/ic_add_white_48dp"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="16dp"
+        android:id="@+id/addButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="NO CANDY YET? NOO!"
+        android:id="@+id/what"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textColor="#aaa" />
+
+
+</FrameLayout>
