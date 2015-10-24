@@ -4,7 +4,7 @@ function getAllData(callback) {
 	dbClient(function (db) {
 		var results = db.candycol.find();
 		callback(results);
-	}
+	});
 }
 
 module.exports = getAllData;

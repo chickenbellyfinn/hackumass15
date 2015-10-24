@@ -42,13 +42,13 @@ function submitCandy(req, callback) {
 module.exports = submitCandy;
 
 
-submitCandy(
-{
-	user: dbjsxn,
-	lat: 42.3911608,
-	lon: -72.5289008,
-	candy: {
-		name: "Snickers",
-		calories: 400
-	}
-});
+// submitCandy(
+// {
+// 	user: dbjsxn,
+// 	lat: 42.3911608,
+// 	lon: -72.5289008,
+// 	candy: {
+// 		name: "Snickers",
+// 		calories: 400
+// 	}
+// });
