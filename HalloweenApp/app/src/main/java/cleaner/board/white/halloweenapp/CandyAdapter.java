@@ -38,7 +38,7 @@ public class CandyAdapter extends ArrayAdapter<Candy> {
         Holder holder = (Holder)view.getTag();
         Candy item = getItem(position);
 
-        holder.name.setText(item.name);
+        holder.name.setText(String.valueOf(item.name.charAt(0)).toUpperCase() + item.name.substring(1));
         holder.count.setText(item.count+"");
 
         return view;

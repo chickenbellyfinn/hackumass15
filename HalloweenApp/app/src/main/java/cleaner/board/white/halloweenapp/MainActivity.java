@@ -1,11 +1,13 @@
 package cleaner.board.white.halloweenapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,12 +32,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String PREF_CANDY_DATA = "candy";
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+
     @Bind(R.id.list) ListView list;
     @Bind(R.id.addButton) FloatingActionButton addButton;
     @Bind(R.id.what) TextView nocandy;
 
+    private String username;
+
     private CandyAdapter adapter;
     private FitbitHelper fitbit;
+
+    private OkHttpClient client;
 
     private SharedPreferences prefs;
 
@@ -39,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
+        username = prefs.getString(LoginActivity.PREF_USER, "beckles");
 
         adapter = new CandyAdapter(this);
         loadCandies();
@@ -47,18 +65,25 @@ public class MainActivity extends AppCompatActivity {
 
         fitbit = new FitbitHelper(this);
 
-        if(getIntent().getAction().equals(Intent.ACTION_VIEW)){
+        if(!adapter.isEmpty()){
+            nocandy.setVisibility(View.GONE);
+        }
+
+        client = new OkHttpClient();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(getIntent().getAction() != null && getIntent().getAction().equals(Intent.ACTION_VIEW)){
+
             fitbit.authCallback(getIntent().getDataString());
         } else {
             if(!fitbit.isAuthenticated()) {
                 fitbit.authenticate();
             }
         }
-
-        if(!adapter.isEmpty()){
-            nocandy.setVisibility(View.GONE);
-        }
-
     }
 
     @OnClick(R.id.addButton)
@@ -69,23 +94,59 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int req, int res , Intent data){
-        Candy candy = new Gson().fromJson(data.getStringExtra("candy"), Candy.class);
 
-        boolean added = false;
-        for(int i = 0; i < adapter.getCount(); i++){
-            if(adapter.getItem(i).name.equals(candy.name)){
-                adapter.getItem(i).count++;
-                added = true;
-                break;
+        if(res == Activity.RESULT_OK) {
+            Candy candy = new Gson().fromJson(data.getStringExtra("candy"), Candy.class);
+            postCandy(candy);
+
+            boolean added = false;
+            for (int i = 0; i < adapter.getCount(); i++) {
+                if (adapter.getItem(i).name.equals(candy.name)) {
+                    adapter.getItem(i).count++;
+                    added = true;
+                    break;
+                }
             }
-        }
 
-        if(!added){
-            candy.count++;
-            adapter.add(candy);
-        }
+            if (!added) {
+                candy.count++;
+                adapter.add(candy);
+            }
 
-        saveCandies();
+            saveCandies();
+
+
+        }
+    }
+
+    private void postCandy(final Candy candy) {
+
+        new Thread(){
+            public void run(){
+
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("user", username);
+                    json.put("lat", 42.3911608+ (Math.random()-0.5)/1000.0);
+                    json.put("lon", -72.5289008 + (Math.random() - 0.5)/1000.0);
+
+                    JSONObject candyJSON = new JSONObject();
+                    candyJSON.put("name", candy.name);
+                    candyJSON.put("calories", candy.calories);
+
+                    json.put("candy", candyJSON);
+
+                    RequestBody body = RequestBody.create(JSON, json.toString());
+                    Request request = new Request.Builder()
+                            .url("http://halloweenapp.cloudapp.net:8080/submit_candy")
+                            .post(body)
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    Log.d(TAG, response.body().string());
+                } catch (Exception e){}
+            }
+        }.start();
+
     }
 
     private void saveCandies(){

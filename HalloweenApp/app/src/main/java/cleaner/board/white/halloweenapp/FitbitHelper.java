@@ -26,6 +26,8 @@ public class FitbitHelper {
         public void onResponse(JSONObject response);
     }
 
+    private static final String INVALID_TOKEN = "invalid_token";
+
     private static final String TAG = FitbitHelper.class.getSimpleName();
 
     private static final String PREF_FITBIT_TOKEN = "fitbit_token";
@@ -80,6 +82,11 @@ public class FitbitHelper {
                 //service.signRequest(getToken(), request);
                 Response response = request.send();
                 JSONObject json = null;
+
+                if(response.getBody().contains(INVALID_TOKEN)){
+                    invalidateToken();
+                }
+
                 try {
                     json = new JSONObject(response.getBody());
                     json.put("searchTerm", term);
@@ -101,6 +108,10 @@ public class FitbitHelper {
             accessToken = new Token(prefs.getString(PREF_FITBIT_TOKEN, null), prefs.getString(PREF_FITBIT_TOKEN_SECRET, null));
         }
         return accessToken;
+    }
+
+    private void invalidateToken(){
+        prefs.edit().remove(PREF_FITBIT_TOKEN).remove(PREF_FITBIT_TOKEN_SECRET).commit();
     }
 
     public void authCallback(final String callbackUrl){

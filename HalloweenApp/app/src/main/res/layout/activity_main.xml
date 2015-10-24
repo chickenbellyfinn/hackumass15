@@ -14,11 +14,11 @@
         android:divider="@null"></ListView>
 
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        app:backgroundTint="@color/purpleBG"
+        app:backgroundTint="@color/orangee"
         app:rippleColor="#FFF"
         android:src="@drawable/ic_add_white_48dp"
         android:layout_gravity="right|bottom"
@@ -33,7 +33,7 @@
         android:id="@+id/what"
         android:layout_gravity="center"
         android:textStyle="bold"
-        android:textColor="#aaa" />
+        android:textColor="@color/orangee" />
 
 
 </FrameLayout>
