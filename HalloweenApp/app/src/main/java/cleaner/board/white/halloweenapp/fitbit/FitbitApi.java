@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.fitbit;
 
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.OAuthConfig;

@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +24,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import cleaner.board.white.halloweenapp.model.Candy;
+import cleaner.board.white.halloweenapp.model.CandyFilter;
+import cleaner.board.white.halloweenapp.fitbit.FitbitHelper;
+import cleaner.board.white.halloweenapp.view.FoodAdapter;
+import cleaner.board.white.halloweenapp.R;
 
 public class CandySearchActivity extends AppCompatActivity implements FitbitHelper.ResponseHandler {
 
@@ -67,6 +72,7 @@ public class CandySearchActivity extends AppCompatActivity implements FitbitHelp
     @OnItemClick (R.id.listView)
     public void candySelected(int pos){
         Candy candy = adapter.getItem(pos);
+        candy.keyword = CandyFilter.keyword(candy.name);
         setResult(Activity.RESULT_OK, new Intent().putExtra("candy", new Gson().toJson(candy)));
         finish();
     }

@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cleaner.board.white.halloweenapp.R;
 
 public class LoginActivity extends Activity {
 
@@ -32,7 +33,7 @@ public class LoginActivity extends Activity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.contains(PREF_USER)){
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivityPlus.class));
         }
     }
 
