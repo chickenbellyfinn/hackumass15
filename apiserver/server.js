@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var submitCandy = require('./submitCandy');
 var getBestHouse = require('./getBestHouse');
 var getAllData = require('./getAllData');
+var getUserLocation = require('./getUserLocation');
 
 var app = express();
 
@@ -27,7 +28,7 @@ app.post('/submit_candy', function (req, res) {
   });
 });
 
-app.get('/best_house', function (req, res) {
+app.post('/best_house', function (req, res) {
   console.log(req.body);
   res.type('application/json');
   getBestHouse(req.body, function (bestHouse) {
@@ -36,11 +37,19 @@ app.get('/best_house', function (req, res) {
   });
 });
 
-app.get('/all_data', function (req, res) {
+app.post('/all_data', function (req, res) {
   res.type('application/json');
   getAllData(function (data) {
     console.log(data);
     res.send(data);
+  });
+});
+
+app.post('/user_loc', function (req, res) {
+  res.type('application/json');
+  getUserLocation(req.body, function (location) {
+    console.log(location);
+    res.send(location);
   });
 });
 

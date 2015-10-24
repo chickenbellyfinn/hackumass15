@@ -1,35 +1,41 @@
-.server-data(ng-controller="ServerDataController")
-    .row
-        .col-md-4
-            h2.table-title Candies
-            table.table#candy-table
-                thead
-                    tr
-                        th Name
-                        th Calories
-                tbody
-                    tr(ng-repeat="candy in candies")
-                        td {{candy.name}}
-                        td {{candy.calories}}
-        .col-md-4
-            h2.table-title Locations
-            table.table#location-table
-                thead
-                    tr
-                        th Address
-                        th Coordinates
-                tbody
-                    tr(ng-repeat="location in locations")
-                        td {{location.addr}}
-                        td {{location.lat | number:2}}&deg;, {{location.lon | number:2}}&deg;
-        .col-md-4
-            h2.table-title Users
-            table.table#user-table
-                thead
-                    tr
-                        th Name
-                        th Last Location
-                tbody
-                    tr(ng-repeat="user in users")
-                        td {{user.name}}
-                        td {{user.lastLocation.addr}}
+script(src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0")
+script(src="app.js")
+
+.app(ng-app="halloweenApp")
+    .map-ui(ng-controller="MapController")
+        #map
+    .server-data(ng-controller="ServerDataController")
+        .row
+            .col-md-4
+                h2.table-title Candies
+                table.table#candy-table
+                    thead
+                        tr
+                            th Name
+                            th Calories
+                    tbody
+                        tr(ng-repeat="candy in candies")
+                            td {{candy.name}}
+                            td {{candy.calories}}
+            .col-md-4
+                h2.table-title Locations
+                table.table#location-table
+                    thead
+                        tr
+                            th Address
+                            th Coordinates
+                    tbody
+                        tr(ng-repeat="location in locations")
+                            td {{location.addr}}
+                            td {{location.lat | number:2}}&deg;, {{location.lon | number:2}}&deg;
+            .col-md-4
+                h2.table-title Users
+                table.table#user-table
+                    thead
+                        tr
+                            th Name
+                            th Last Location
+                    tbody
+                        tr(ng-repeat="user in users")
+                            td {{user.name}}
+                            td {{user.lastLocation.addr}}
