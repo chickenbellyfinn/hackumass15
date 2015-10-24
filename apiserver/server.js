@@ -19,18 +19,23 @@ app.use(function (req, res, next) {
 });
 
 app.post('/submit_candy', function (req, res) {
-  submitCandy(req.body);
-  res.end();
+  submitCandy(req.body, function (address) {
+    res.send(address);
+  });
 });
 
 app.get('/best_house', function (req, res) {
   res.type('text/plain');
-  res.send(getBestHouse(req.body));
+  getBestHouse(req.body, function (bestHouse) {
+    res.send(bestHouse);
+  });
 });
 
 app.get('/all_data', function (req, res) {
   res.type('application/json');
-  res.send(getAllData());
+  getAllData(function (data) {
+    res.send(data);
+  });
 });
 
 var server = app.listen(PORT, function () {

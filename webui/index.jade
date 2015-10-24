@@ -1,2 +1,21 @@
 h1 Halloween Candy Finder
-h3 Spooooooky &#x1f383;
+h3 Spooooooky #[span.pumpkin &#x1f383;]
+.server-data(ng-controller="ServerDataController")
+    .row
+        .col-md-4
+            table.table
+                thead
+                    tr
+                        th Name
+                        th Calories
+                tbody
+                    tr(ng-repeat="candy in candies")
+                        td {{candy.name}}
+                        td {{candy.calories}}
+                    tr
+                        td cool
+                        td beans
+                    tr
+                        td yeah
+                        td whatever
+        .col-md-8
