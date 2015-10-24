@@ -2,6 +2,15 @@
 @primaryColor: #FB8C00;
 @primaryColorDark: #EF6C00;
 
+html {
+  height: 100%;
+  padding-bottom: 10pt;
+}
+
+body, .server-data, .server-data > .row {
+  height: 100%;
+}
+
 body {
   font-family: "Helvetica";
   text-align: center;
@@ -25,15 +34,10 @@ h3 {
 
 .navbar {
   background-color: @accent;
-  color: @primaryColor;
-}
 
-.navbar a {
-  color: white;
-}
-
-table > thead > tr > th {
-  color: @primaryColor;
+  a {
+    color: white;
+  }
 }
 
 .pumpkin {
@@ -41,7 +45,28 @@ table > thead > tr > th {
 }
 
 .server-data {
+  .col-md-4 {
+    height: 100%;
 
+    &:not(:first-child) {
+      border-left: @accent solid 1px;
+    }
+  }
+
+  th {
+    text-align: center;
+    color: @primaryColor;
+  }
+
+  th, td {
+    &:not(:first-child) {
+      border-left: white solid 1px;
+    }
+  }
+
+  .table-title {
+    text-align: center;
+  }
 }
 
 #myMap {

@@ -1,9 +1,8 @@
-//h1 Halloween Candy Finder
-//h3 Spooooooky #[span.pumpkin &#x1f383;]
 .server-data(ng-controller="ServerDataController")
     .row
-        .col-md-4.col-md-push-4
-            table.table
+        .col-md-4
+            h2.table-title Candies
+            table.table#candy-table
                 thead
                     tr
                         th Name
@@ -12,10 +11,25 @@
                     tr(ng-repeat="candy in candies")
                         td {{candy.name}}
                         td {{candy.calories}}
+        .col-md-4
+            h2.table-title Locations
+            table.table#location-table
+                thead
                     tr
-                        td Snickers
-                        td 240
+                        th Address
+                        th Coordinates
+                tbody
+                    tr(ng-repeat="location in locations")
+                        td {{location.addr}}
+                        td {{location.lat | number:2}}&deg;, {{location.lon | number:2}}&deg;
+        .col-md-4
+            h2.table-title Users
+            table.table#user-table
+                thead
                     tr
-                        td Kit Kat
-                        td 140
-        .col-md-8
+                        th Name
+                        th Last Location
+                tbody
+                    tr(ng-repeat="user in users")
+                        td {{user.name}}
+                        td {{user.lastLocation.addr}}
