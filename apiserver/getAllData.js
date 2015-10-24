@@ -15,14 +15,14 @@ function getAllData(callback) {
       collections.push(db.collection(names[i]));
     };
 
-    var allresults;
+    var allresults = {};
 
     function recurser(i, results) {
       if (i >= 0) {
         allresults[names[i]] = results;
       }
 
-      if (i >= names.length) {
+      if (i >= names.length - 1) {
         callback(allresults);
         return;
       }
