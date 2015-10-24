@@ -19,8 +19,8 @@ app.use(function (req, res, next) {
 });
 
 app.post('/submit_candy', function (req, res) {
-  submitCandy(req.body, function () {
-    res.end();
+  submitCandy(req.body, function (address) {
+    res.send(address);
   });
 });
 
