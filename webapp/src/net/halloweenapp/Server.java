@@ -34,6 +34,7 @@ public class Server {
             server.createContext("/", new HttpHandler() {
                 @Override
                 public void handle(HttpExchange httpExchange) throws IOException {
+                    System.out.println("request from " + httpExchange.getRemoteAddress() + " for " + httpExchange.getRequestURI());
                     String response = "testing";
 
                     httpExchange.sendResponseHeaders(200, response.length());
@@ -45,6 +46,7 @@ public class Server {
             });
 
             server.start();
+            System.out.println("Server started");
             running = true;
         }
         catch (IOException e) {
