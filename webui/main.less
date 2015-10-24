@@ -45,27 +45,29 @@ h3 {
 }
 
 .server-data {
-  .col-md-4 {
-    height: 100%;
+  & > .row {
+    & > .col-md-4 {
+      height: 100%;
 
-    &:not(:first-child) {
-      border-left: @accent solid 1px;
+      &:not(:first-child) {
+        border-left: @accent solid 1px;
+      }
+
+      .table-title {
+        text-align: center;
+      }
+
+      th {
+        text-align: center;
+        color: @primaryColor;
+      }
+
+      th, td {
+        &:not(:first-child) {
+          border-left: white solid 1px;
+        }
+      }
     }
-  }
-
-  th {
-    text-align: center;
-    color: @primaryColor;
-  }
-
-  th, td {
-    &:not(:first-child) {
-      border-left: white solid 1px;
-    }
-  }
-
-  .table-title {
-    text-align: center;
   }
 }
 
