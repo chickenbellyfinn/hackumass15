@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cleaner.board.white.halloweenapp.CandySearchActivity"
+    tools:context="cleaner.board.white.halloweenapp.activity.CandySearchActivity"
     android:padding="8dp">
 
     <EditText
@@ -11,7 +11,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/button"
-        android:hint="Search Candy..." />
+        android:hint="Search Candy..."
+        android:singleLine="true" />
 
     <Button
         android:layout_width="wrap_content"

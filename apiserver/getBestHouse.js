@@ -9,7 +9,7 @@ function getBestHouse(req, callback) {
 	var keywords = req.keywords;
 
 	dbClient(function(db) {
-		var regexp = RegExp(_.join(keywords, '|'));
+		var regexp = RegExp(keywords.join('|'));
 		db.collection("candies").find({'name': {$regex: regexp}}).toArray(function(err, candiesRes) {
 			db.collection("candyCounts").find({'candy': {$in: _.pluck(candiesRes, "_id")}}).toArray(function (err, candyCountRes) {
 				var countList = _.countBy(candyCountRes, 'loc');
