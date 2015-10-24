@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(function (req, res, next) {
   console.log('API request: ' + req.method + ' ' + req.path);
-  res.set('Access-Control-Allow-Origin', 'halloweenapp.cloudapp.net');
+  res.set('Access-Control-Allow-Origin', 'http://halloweenapp.cloudapp.net');
   next();
 });
 
