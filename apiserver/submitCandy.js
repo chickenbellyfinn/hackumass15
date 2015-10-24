@@ -8,6 +8,7 @@ function submitCandy(req, callback) {
 	var user = req.user;
 	var lat = req.lat;
 	var lon = req.lon;
+	var keyword = req.keyword;
 	var candyName = req.candy.name;
 	var candyCalories = req.candy.calories;
 
@@ -19,7 +20,7 @@ function submitCandy(req, callback) {
 			var candyCounts = db.collection('candyCounts');
 
 			getEntity(locations, { 'addr': address }, { 'lat': lat, 'lon': lon }, function (location) {
-				getEntity(candies, { 'name': candyName }, { 'calories': candyCalories }, function (candy) {
+				getEntity(candies, { 'name': candyName }, { 'calories': candyCalories, 'keyword': keyword }, function (candy) {
 					getEntity(candyCounts, { 'loc': location._id, 'candy': candy._id }, { 'count': 0 }, function (candyCount) {
 						candyCounts.update({ '_id': candyCount._id }, { $inc: { 'count': 1 } });
 					});
