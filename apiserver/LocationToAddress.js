@@ -2,10 +2,6 @@ var http = require('http');
 //var latitude = process.argv[2];
 //var longitude = process.argv[3];
 
-var options = {
-	host: "dev.virtualearth.net",
-	path: "/REST/v1/Locations/" + latitude + "," + longitude + "?&key=ApZUbPx7guIK9fElyBl_r4N8BX5FmED1Kq3Z-gDSjK-sv7KKC25FpXRBi9TEGdQX"
-}
 //getAddress(latitude, longitude, function(address){
 	//console.log(address);
 //});
@@ -31,7 +27,11 @@ var options = {
 
 // http.request(options, callback).end();
 
-export function getAddress(latitude, longitude, callback){
+function getAddress(latitude, longitude, callback){
+	var options = {
+		host: "dev.virtualearth.net",
+		path: "/REST/v1/Locations/" + latitude + "," + longitude + "?&key=ApZUbPx7guIK9fElyBl_r4N8BX5FmED1Kq3Z-gDSjK-sv7KKC25FpXRBi9TEGdQX"
+	};
 	http.request(options, 
 		function(response) {
 		  	var str = '';
@@ -52,3 +52,5 @@ export function getAddress(latitude, longitude, callback){
 
 	}).end();
 }
+
+module.exports.getAddress = getAddress;
