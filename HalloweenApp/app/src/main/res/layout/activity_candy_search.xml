@@ -29,4 +29,14 @@
         android:layout_alignParentStart="true"
         tools:listitem="@layout/item_food_result"
         android:divider="@null" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="NO CANDIES FOUND :("
+        android:id="@+id/ohno"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/orangee" />
 </RelativeLayout>

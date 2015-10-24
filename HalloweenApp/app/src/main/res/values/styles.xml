@@ -2,8 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat">
-        <item name="colorPrimary">#FB8C00</item>
-        <item name='colorPrimaryDark'>#EF6C00</item>
+        <item name="colorPrimary">#673AB7</item>
+        <item name='colorPrimaryDark'>#4527A0</item>
+
     </style>
 
 </resources>

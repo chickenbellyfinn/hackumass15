@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -25,9 +27,12 @@ import butterknife.OnItemClick;
 
 public class CandySearchActivity extends AppCompatActivity implements FitbitHelper.ResponseHandler {
 
+    private final int MAX_RESULTS = 10;
+
     @Bind(R.id.term)  EditText searchText;
     @Bind(R.id.button) Button searchButton;
     @Bind(R.id.listView) ListView list;
+    @Bind(R.id.ohno) TextView notfound;
 
     private FoodAdapter adapter;
 
@@ -45,6 +50,7 @@ public class CandySearchActivity extends AppCompatActivity implements FitbitHelp
         list.setAdapter(adapter);
 
         fitbit = new FitbitHelper(this);
+        notfound.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.button)
@@ -74,22 +80,24 @@ public class CandySearchActivity extends AppCompatActivity implements FitbitHelp
                     final ArrayList<Candy> foodList = new ArrayList<Candy>();
                     JSONArray foods = response.getJSONArray("foods");
 
-                    for (int i = 0; i < foods.length(); i++) {
+                    for (int i = 0; i < Math.min(foods.length(), MAX_RESULTS); i++) {
                         JSONObject foodItem = foods.getJSONObject(i);
                         String name = foodItem.getString("name");
                         int calories = foodItem.getInt("calories");
-                        foodList.add(new Candy(name, calories, 0));
+                        if(CandyFilter.couldBeCandy(name)) {
+                            foodList.add(new Candy(name, calories, 0));
+                        }
                     }
 
                     updateFoodList(foodList);
                 }
             } catch (Exception e){
                 e.printStackTrace();
+                updateFoodList(new ArrayList<Candy>());
             }
 
         }
     }
-
 
     private void updateFoodList(final List<Candy> foodList){
         runOnUiThread(new Runnable() {
@@ -98,6 +106,11 @@ public class CandySearchActivity extends AppCompatActivity implements FitbitHelp
                 adapter.clear();
                 adapter.addAll(foodList);
                 adapter.notifyDataSetChanged();
+                if(adapter.getCount() == 0){
+                    notfound.setVisibility(View.VISIBLE);
+                } else {
+                    notfound.setVisibility(View.GONE);
+                }
             }
         });
     }
