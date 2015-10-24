@@ -4,6 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var submitCandy = require('./submitCandy');
 var getBestHouse = require('./getBestHouse');
+var getAllData = require('./getAllData');
 
 var app = express();
 
@@ -13,9 +14,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(function (req, res, next) {
-  if (req.method === 'POST') {
-    console.log('API request for ' + req.path);
-  }
+  console.log('API request: ' + req.method + ' ' + req.path);
   next();
 });
 
@@ -27,6 +26,11 @@ app.post('/submit_candy', function (req, res) {
 app.get('/best_house', function (req, res) {
   res.type('text/plain');
   res.send(getBestHouse(req.body));
+});
+
+app.get('/all_data', function (req, res) {
+  res.type('application/json');
+  res.send(getAllData());
 });
 
 var server = app.listen(PORT, function () {
