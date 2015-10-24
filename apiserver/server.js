@@ -20,14 +20,18 @@ app.use(function (req, res, next) {
 });
 
 app.post('/submit_candy', function (req, res) {
+  console.log(req.body);
   submitCandy(req.body, function (address) {
+    console.log(address);
     res.send(address);
   });
 });
 
 app.get('/best_house', function (req, res) {
+  console.log(req.body);
   res.type('text/plain');
   getBestHouse(req.body, function (bestHouse) {
+    console.log(bestHouse);
     res.send(bestHouse);
   });
 });
@@ -35,6 +39,7 @@ app.get('/best_house', function (req, res) {
 app.get('/all_data', function (req, res) {
   res.type('application/json');
   getAllData(function (data) {
+    console.log(data);
     res.send(data);
   });
 });
