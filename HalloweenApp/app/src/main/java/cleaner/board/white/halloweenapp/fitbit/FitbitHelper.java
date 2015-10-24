@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.fitbit;
 
 import android.content.Context;
 import android.content.Intent;

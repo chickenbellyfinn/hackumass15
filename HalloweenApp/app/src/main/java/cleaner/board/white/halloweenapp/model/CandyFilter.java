@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.model;
 
 /**
  * Created by Akshay on 10/24/2015.
@@ -15,8 +15,17 @@ public class CandyFilter {
         return false;
     }
 
+    public static String keyword(String name) {
+        String normal = name.toLowerCase().replaceAll("\\s", "");
+        for (String keyword : KEYWORDS) {
+            if (normal.contains(keyword)) {
+                return keyword;
+            }
+        }
+        return null;
+    }
+
     static final String[] KEYWORDS = {
-            "candy",
             "zabba",
             "airheads",
             "andes",
@@ -105,6 +114,8 @@ public class CandyFilter {
             "toblerone",
             "twix",
             "wonka",
-            "fudge"
+            "chocolate",
+            "fudge",
+            "candy",
     };
 }

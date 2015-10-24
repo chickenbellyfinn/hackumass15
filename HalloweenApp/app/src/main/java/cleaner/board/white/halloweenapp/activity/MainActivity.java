@@ -1,4 +1,4 @@
-package cleaner.board.white.halloweenapp;
+package cleaner.board.white.halloweenapp.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +26,11 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cleaner.board.white.halloweenapp.model.Address;
+import cleaner.board.white.halloweenapp.model.Candy;
+import cleaner.board.white.halloweenapp.view.CandyAdapter;
+import cleaner.board.white.halloweenapp.fitbit.FitbitHelper;
+import cleaner.board.white.halloweenapp.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -132,18 +137,25 @@ public class MainActivity extends AppCompatActivity {
 
                     JSONObject candyJSON = new JSONObject();
                     candyJSON.put("name", candy.name);
+                    candyJSON.put("keyword", candy.keyword);
                     candyJSON.put("calories", candy.calories);
 
                     json.put("candy", candyJSON);
 
-                    RequestBody body = RequestBody.create(JSON, json.toString());
+                    String jsonString = json.toString();
+                    RequestBody body = RequestBody.create(JSON, jsonString);
+                    Log.d(TAG, jsonString);
                     Request request = new Request.Builder()
                             .url("http://halloweenapp.cloudapp.net:8080/submit_candy")
                             .post(body)
                             .build();
                     Response response = client.newCall(request).execute();
-                    Log.d(TAG, response.body().string());
-                } catch (Exception e){}
+
+                    Address.get(response.body().string()).addCandy(candy);
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.start();
 
