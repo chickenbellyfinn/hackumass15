@@ -3,6 +3,7 @@ var PORT = 8080;
 var express = require('express');
 var bodyParser = require('body-parser');
 var submitCandy = require('./submitCandy');
+var getBestHouse = require('./getBestHouse');
 
 var app = express();
 
@@ -21,6 +22,11 @@ app.use(function (req, res, next) {
 app.post('/submit_candy', function (req, res) {
   submitCandy(req.body);
   res.end();
+});
+
+app.get('/best_house', function (req, res) {
+  res.type('text/plain');
+  res.send(getBestHouse(req.body));
 });
 
 var server = app.listen(PORT, function () {
