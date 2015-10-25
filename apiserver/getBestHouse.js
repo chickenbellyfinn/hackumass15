@@ -61,6 +61,9 @@ function sendDirections(db, toAddr, user, candyID, callback) {
 	var add2 = toAddr;
 	var add1;
 	db.collection("users").findOne({'name': user}, function(err, results) {
+		if (err || !results) {
+			return;
+		}
 		var id = results.lastLocation;
 		db.collection("locations").findOne({'_id': id}, function(err, loc) {
 			add1 = loc.addr;

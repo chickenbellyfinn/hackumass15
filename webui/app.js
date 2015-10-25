@@ -164,7 +164,7 @@ app.controller('ServerDataController', function ($scope) {
   else {
     function update() {
       getLocation(username, function () {
-        setTimeout(update, 60000);
+        setTimeout(update, 3000);
       });
     }
     update();
