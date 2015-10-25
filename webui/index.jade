@@ -2,22 +2,23 @@ script(src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0")
 script(src="app.js")
 
 .app(ng-app="halloweenApp")
-    .map-ui(ng-controller="MapController")
+    .map-ui
         #loginModal.modal.modal-fade(tabindex="-1")
-            .modal-dialog
+            .modal-dialog.modal-sm
                 .modal-content
                     .modal-header
                         button.close(type="button" data-dismiss="modal") &times;
                         h4.modal-title Login
                     .modal-body
-                        input#userNameInput(type="text")
+                        form#userNameForm.form-inline
+                            input#userNameInput.form-control(type="text")
                     .modal-footer
-                        button.btn.btn-default(type="button" data-dismiss="modal") Close
-                        button#loginButton.btn.btn-primary(type="button") Login
+                        button.btn(type="button" data-dismiss="modal") Close
+                        button#loginButton.btn(type="button") Login
         #map
-    .server-data(ng-controller="ServerDataController")
-        .row
-            .col-md-4
+    table.server-data(ng-controller="ServerDataController")
+        tr.row
+            td.col-md-4
                 h2.table-title Candies
                 table.table#candy-table
                     thead
@@ -28,7 +29,7 @@ script(src="app.js")
                         tr(ng-repeat="candy in candies")
                             td {{candy.name}}
                             td {{candy.calories}}
-            .col-md-4
+            td.col-md-4
                 h2.table-title Locations
                 table.table#location-table
                     thead
@@ -39,7 +40,7 @@ script(src="app.js")
                         tr(ng-repeat="location in locations")
                             td {{location.addr}}
                             td {{location.lat | number:2}}&deg;, {{location.lon | number:2}}&deg;
-            .col-md-4
+            td.col-md-4
                 h2.table-title Users
                 table.table#user-table
                     thead
