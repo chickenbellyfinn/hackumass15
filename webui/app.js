@@ -34,7 +34,6 @@ app.controller('ServerDataController', function ($scope) {
   map.setView({ zoom: 3 });
 
   var locationHistory = [];
-  var locationPath = new Microsoft.Maps.Polyline([], null);
 
   var $loginModal = $('#loginModal');
   var $loginButton = $('#loginButton');
@@ -67,22 +66,27 @@ app.controller('ServerDataController', function ($scope) {
     else {
       apiGet('user_loc', { user: username })
         .success(function (loc) {
-          console.log('location: ', loc);
-          var mloc = new Microsoft.Maps.Location(loc.lat, loc.lon);
-          map.entities.push(new Microsoft.Maps.Pushpin(mloc, {
-            icon: 'pumpkin.png',
-            width: 40,
-            height: 40
-          }));
-          map.setView({zoom: 16, center: mloc});
-
           if (!locationHistory.length || locationHistory[locationHistory.length - 1]._id !== loc._id) {
             console.log('new location');
-            locationHistory.push(loc);
-            locationPath.setLocations(_.map(locationHistory, function (l) {
-              return new Microsoft.Maps.Location(l.lat, l.lon);
-            }), null);
+            console.log('location: ', loc);
             console.log('history: ', locationHistory);
+            locationHistory.push(loc);
+
+            var mloc = new Microsoft.Maps.Location(loc.lat, loc.lon);
+
+            map.entities.clear();
+
+            map.entities.push(new Microsoft.Maps.Pushpin(mloc, {
+              icon: 'pumpkin.png',
+              width: 40,
+              height: 40
+            }));
+
+            map.entities.push(new Microsoft.Maps.Polyline(_.map(locationHistory, function (l) {
+              return new Microsoft.Maps.Location(l.lat, l.lon);
+            }), null));
+
+            map.setView({zoom: 16, center: mloc});
           }
           else {
             console.log('hasnt moved');

@@ -10,61 +10,70 @@ function getBestHouse(req, callback) {
 	var keywords = req.keywords;
 
 	if (!keywords.length) {
-		getRandomHouse(function (rand) {
-			callback(rand.addr);
-		});
+		getRandomHouse(db, user, callback);
+		return;
 	}
 
 	dbClient(function(db) {
 		var regexp = RegExp(keywords.join('|'), 'i');
 		db.collection("candies").find({'name': {$regex: regexp}}).toArray(function(err, candiesRes) {
 			if (err || !candiesRes || !candiesRes.length) {
-				getRandomHouse(function (rand) {
-					callback(rand.addr);
-				});
+				getRandomHouse(db, user, callback);
+				return;
 			}
 			db.collection("candyCounts").find({'candy': {$in: _.pluck(candiesRes, "_id")}}).toArray(function (err, candyCountRes) {
 				if (err || !candyCountRes || !candyCountRes.length) {
-					getRandomHouse(function (rand) {
-						callback(rand.addr);
-					});
+					getRandomHouse(db, user, callback);
+					return;
 				}
+				console.log(candyCountRes);
 				var countList = _.countBy(candyCountRes, 'loc');
 				var bestCount = _.max(countList);
 				var bestLocation = ObjectId(_.findKey(countList, function(count) {
 					return count === bestCount;
 				}));
-				var houseCandyID = _.filter(candyCountRes, function (c) {
+				console.log(bestLocation);
+				var houseCandyIDs = _.filter(candyCountRes, function (c) {
 					return c.loc.equals(bestLocation);
-				})[0].candy;
+				});
+				console.log(houseCandyIDs);
+				var houseCandyID = houseCandyIDs[0].candy;
 
-				db.collection('candies').findOne({'_id': houseCandyID}, function (err, houseCandy) {
-					db.collection("locations").findOne({'_id': bestLocation}, function(err, entity) {
-						var add2 = entity.addr;
-						var add1;
-						db.collection("users").findOne({'name': user}, function(err, results) {
-							var id = results.lastLocation;
-							db.collection("locations").findOne({'_id': id}, function(err, loc) {
-								add1 = loc.addr;
-								getDirections(add1, add2, function (directions) {
-									callback({
-										directions: directions,
-										addr: entity.addr,
-										candy: houseCandy.name
-									});
-								});
-							});
-						});
-					});
+				db.collection("locations").findOne({'_id': bestLocation}, function(err, entity) {
+					sendDirections(db, entity.addr, user, houseCandyID, callback);
 				});
 			});
 		});
 	});
 }
 
-function getRandomHouse(callback) {
+function getRandomHouse(db, user, callback) {
 	db.collection('locations').find({}).toArray(function (err, locations) {
-		callback(locations[Math.floor(Math.random() * locations.length)]);
+		var randLoc = locations[Math.floor(Math.random() * locations.length)];
+		db.collection('candyCounts').find({'loc': randLoc._id}).toArray(function (err, candyCounts) {
+			var randCandy = candyCounts[Math.floor(Math.random() * candyCounts.length)];
+			sendDirections(db, randLoc.addr, user, randCandy.candy, callback);
+		});
+	});
+}
+
+function sendDirections(db, toAddr, user, candyID, callback) {
+	var add2 = toAddr;
+	var add1;
+	db.collection("users").findOne({'name': user}, function(err, results) {
+		var id = results.lastLocation;
+		db.collection("locations").findOne({'_id': id}, function(err, loc) {
+			add1 = loc.addr;
+			getDirections(add1, add2, function (directions) {
+				db.collection('candies').findOne({'_id': candyID}, function (err, houseCandy) {
+					callback({
+						directions: directions,
+						addr: toAddr,
+						candy: houseCandy.name
+					});
+				});
+			});
+		});
 	});
 }
 
