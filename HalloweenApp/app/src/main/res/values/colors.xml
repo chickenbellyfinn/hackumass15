@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="orangee">#FB8C00</color>
-    <color name="purpleBG">#673AB7</color>
-    <color name="darkpurp">#4527A0</color>
+    <color name="purpleBG">#9575CD</color>
+    <color name="darkpurp">#7E57C2</color>
 
 </resources>

@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    tools:context="cleaner.board.white.halloweenapp.activity.SelectFavoritesActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="To begin, you must add your favorite candies. When you are finished, click &apos;Done&apos;"
+        android:id="@+id/instruct"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:layout_below="@+id/instruct"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/item_candy"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="@color/orangee"
+        app:rippleColor="#FFF"
+        android:src="@drawable/ic_add_white_48dp"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="16dp"
+        android:id="@+id/addButton" />
+
+</RelativeLayout>

@@ -86,7 +86,7 @@ public class CandySearchActivity extends AppCompatActivity implements FitbitHelp
                     final ArrayList<Candy> foodList = new ArrayList<Candy>();
                     JSONArray foods = response.getJSONArray("foods");
 
-                    for (int i = 0; i < Math.min(foods.length(), MAX_RESULTS); i++) {
+                    for (int i = 0; i < foods.length(); i++) {
                         JSONObject foodItem = foods.getJSONObject(i);
                         String name = foodItem.getString("name");
                         int calories = foodItem.getInt("calories");

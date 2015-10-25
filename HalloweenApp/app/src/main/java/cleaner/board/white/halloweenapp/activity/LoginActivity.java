@@ -25,7 +25,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle(R.string.title_activity_login);
         getWindow().setStatusBarColor(getResources().getColor(R.color.darkpurp));
         setContentView(R.layout.activity_login);
 
@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.contains(PREF_USER)){
-            startActivity(new Intent(this, MainActivityPlus.class));
+            nextActivity();
         }
     }
 
@@ -43,7 +43,12 @@ public class LoginActivity extends Activity {
 
         if(!username.isEmpty()){
             prefs.edit().putString(PREF_USER, username).commit();
-            startActivity(new Intent(this, MainActivity.class));
+            nextActivity();
         }
+    }
+
+    private void nextActivity(){
+        startActivity(new Intent(this, SelectFavoritesActivity.class));
+
     }
 }
