@@ -103,7 +103,6 @@ public class Address extends SugarRecord<Address> {
                     jc.put("count", ((Integer)jc.get("count")) + 1);
                     added = true;
                     break;
-
                 }
             }
 

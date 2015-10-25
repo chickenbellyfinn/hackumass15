@@ -3,6 +3,34 @@ xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_paren
 android:layout_height="match_parent"
 tools:context="cleaner.board.white.halloweenapp.view.CandyListFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Total Calories: "
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/total"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
@@ -11,6 +39,9 @@ tools:context="cleaner.board.white.halloweenapp.view.CandyListFragment">
             android:layout_margin="5dp"
             android:visibility="visible"
             android:divider="@null"></ListView>
+
+    </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"

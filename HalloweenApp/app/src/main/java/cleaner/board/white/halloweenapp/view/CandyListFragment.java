@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cleaner.board.white.halloweenapp.R;
@@ -17,6 +19,7 @@ public class CandyListFragment extends Fragment  {
 
     @Bind(R.id.list) ListView list;
     @Bind(R.id.what) TextView nocandy;
+    @Bind(R.id.total) TextView calorieTotal;
 
     private CandyAdapter adapter;
 
@@ -49,9 +52,18 @@ public class CandyListFragment extends Fragment  {
 
     public void update(){
 
+        List<Candy> allCandy = Candy.all();
+
         adapter.clear();
-        adapter.addAll(Candy.all());
+        adapter.addAll(allCandy);
         adapter.notifyDataSetChanged();
+
+        int total = 0;
+        for(Candy c:allCandy){
+            total += c.calories*c.count;
+        }
+
+        calorieTotal.setText(""+ total);
 
         if(!adapter.isEmpty()){
             nocandy.setVisibility(View.GONE);
