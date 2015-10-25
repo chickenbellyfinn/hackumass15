@@ -1,4 +1,4 @@
-HACS: Halloween Application for Candy Seekers
+HACS: Halloween Application for Candy Seekers 🎃  🎃  🎃
 ====================================
 
 Authors:
