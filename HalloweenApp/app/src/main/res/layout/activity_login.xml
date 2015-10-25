@@ -33,7 +33,8 @@
         android:gravity="center"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:singleLine="true" />
 
     <Button
         android:layout_width="wrap_content"
