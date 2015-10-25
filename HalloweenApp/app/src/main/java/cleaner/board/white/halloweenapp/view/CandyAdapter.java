@@ -17,6 +17,8 @@ import cleaner.board.white.halloweenapp.R;
  */
 public class CandyAdapter extends ArrayAdapter<Candy> {
 
+    private boolean numbersEnabled = true;
+
     class Holder {
         @Bind(R.id.address) TextView name;
         @Bind(R.id.count) TextView count;
@@ -27,6 +29,11 @@ public class CandyAdapter extends ArrayAdapter<Candy> {
 
     public CandyAdapter(Context context) {
         super(context, R.layout.item_candy);
+    }
+
+    public void setNumbersEnabled(boolean enabled){
+        numbersEnabled = false;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,6 +49,12 @@ public class CandyAdapter extends ArrayAdapter<Candy> {
 
         holder.name.setText(String.valueOf(item.name.charAt(0)).toUpperCase() + item.name.substring(1));
         holder.count.setText(item.count+"");
+
+        if(!numbersEnabled){
+            holder.count.setVisibility(View.GONE);
+        } else {
+            holder.count.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }

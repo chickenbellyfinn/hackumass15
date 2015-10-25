@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:id="@+id/imageView2"
+        android:layout_gravity="center"
+        android:src="@drawable/face_w"
+        android:tint="#3a3a3a"/>
+
     <android.support.v4.view.ViewPager  android:id="@+id/pager"
         android:layout_width="match_parent" android:layout_height="match_parent"
         />
@@ -19,5 +28,6 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:id="@+id/addButton" />
+
 </FrameLayout>
 

@@ -40,6 +40,7 @@ import cleaner.board.white.halloweenapp.model.Address;
 import cleaner.board.white.halloweenapp.model.Candy;
 import cleaner.board.white.halloweenapp.view.AddressFragment;
 import cleaner.board.white.halloweenapp.view.CandyListFragment;
+import cleaner.board.white.halloweenapp.view.DestinationFragment;
 
 public class MainActivityPlus extends AppCompatActivity implements ActionBar.TabListener {
 
@@ -59,7 +60,7 @@ public class MainActivityPlus extends AppCompatActivity implements ActionBar.Tab
 
     AddressFragment addressFragment;
     CandyListFragment candyListFragment;
-    PlaceholderFragment destinationFragment;
+    DestinationFragment destinationFragment;
 
     ViewPager mViewPager;
 
@@ -72,7 +73,7 @@ public class MainActivityPlus extends AppCompatActivity implements ActionBar.Tab
 
         addressFragment = new AddressFragment();
         candyListFragment = new CandyListFragment();
-        destinationFragment = PlaceholderFragment.newInstance(1);
+        destinationFragment = new DestinationFragment();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         username = prefs.getString(LoginActivity.PREF_USER, "beckles");
@@ -110,13 +111,6 @@ public class MainActivityPlus extends AppCompatActivity implements ActionBar.Tab
     @Override
     public void onResume(){
         super.onResume();
-        if(getIntent().getAction() != null && getIntent().getAction().equals(Intent.ACTION_VIEW)){
-            fitbit.authCallback(getIntent().getDataString());
-        } else {
-            if(!fitbit.isAuthenticated()) {
-                fitbit.authenticate();
-            }
-        }
     }
 
 
@@ -237,7 +231,7 @@ public class MainActivityPlus extends AppCompatActivity implements ActionBar.Tab
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PlaceholderFragment.newInstance(1);
+                    return destinationFragment;
                 case 1:
                     return candyListFragment;
                 case 2:
