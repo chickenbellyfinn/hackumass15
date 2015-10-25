@@ -34,15 +34,26 @@ function getBestHouse(req, callback) {
 				var bestLocation = ObjectId(_.findKey(countList, function(count) {
 					return count === bestCount;
 				}));
+				var houseCandyID = _.filter(candyCountRes, function (c) {
+					return c.loc.equals(bestLocation);
+				})[0].candy;
 
-				db.collection("locations").findOne({'_id': bestLocation}, function(err, entity) {
-					var add2 = entity.addr;
-					var add1;
-					db.collection("users").findOne({'name': user}, function(err, results) {
-						var id = results.lastLocation;
-						db.collection("locations").findOne({'_id': id}, function(err, loc) {
-							add1 = loc.addr;
-							getDirections(add1, add2, callback);
+				db.collection('candies').findOne({'_id': houseCandyID}, function (err, houseCandy) {
+					db.collection("locations").findOne({'_id': bestLocation}, function(err, entity) {
+						var add2 = entity.addr;
+						var add1;
+						db.collection("users").findOne({'name': user}, function(err, results) {
+							var id = results.lastLocation;
+							db.collection("locations").findOne({'_id': id}, function(err, loc) {
+								add1 = loc.addr;
+								getDirections(add1, add2, function (directions) {
+									callback({
+										directions: directions,
+										addr: entity.addr,
+										candy: houseCandy.name
+									});
+								});
+							});
 						});
 					});
 				});
