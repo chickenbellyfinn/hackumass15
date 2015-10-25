@@ -42,6 +42,10 @@ html
                     b S
                     | eekers
                 p.navbar-text Spooooooky #[span.pumpkin &#x1f383;]
-                button#logoutButton.btn.navbar-btn.navbar-right Logout
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        p#userName.navbar-text
+                    li
+                        button#logoutButton.btn.navbar-btn Logout
 
     != yield
