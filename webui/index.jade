@@ -7,13 +7,12 @@ script(src="app.js")
             .modal-dialog.modal-sm
                 .modal-content
                     .modal-header
-                        button.close(type="button" data-dismiss="modal") &times;
                         h4.modal-title Login
                     .modal-body
+                        p#loginError
                         form#userNameForm.form-inline
                             input#userNameInput.form-control(type="text")
                     .modal-footer
-                        button.btn(type="button" data-dismiss="modal") Close
                         button#loginButton.btn(type="button") Login
         #map
     table.server-data(ng-controller="ServerDataController")

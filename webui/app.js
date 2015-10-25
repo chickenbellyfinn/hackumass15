@@ -37,6 +37,7 @@ app.controller('ServerDataController', function ($scope) {
 
   var $loginModal = $('#loginModal');
   var $loginButton = $('#loginButton');
+  var $loginError = $('#loginError');
   var $logoutButton = $('#logoutButton');
   var $userNameForm = $('#userNameForm');
   var $userNameInput = $('#userNameInput');
@@ -66,6 +67,8 @@ app.controller('ServerDataController', function ($scope) {
     else {
       apiGet('user_loc', { user: username })
         .success(function (loc) {
+          $('#userName').text(username);
+
           if (!locationHistory.length || locationHistory[locationHistory.length - 1]._id !== loc._id) {
             console.log('new location');
             console.log('location: ', loc);
@@ -96,6 +99,10 @@ app.controller('ServerDataController', function ($scope) {
         })
         .fail(function (err) {
           promptUsername();
+          $loginError.text('Error getting user data for "' + username + '".');
+          setTimeout(function () {
+            $loginError.fadeOut(500);
+          }, 5000);
           fail && fail();
         });
     }
@@ -108,8 +115,11 @@ app.controller('ServerDataController', function ($scope) {
     });
 
     $loginButton.click(function () {
-      document.location = '?username=' + encodeURIComponent($userNameInput.val());
-      $loginModal.modal('hide');
+      var username = $userNameInput.val().trim();
+      if (username) {
+        document.location = '?username=' + encodeURIComponent(username);
+        $loginModal.modal('hide');
+      }
     });
 
     function centerModal() {
@@ -130,15 +140,24 @@ app.controller('ServerDataController', function ($scope) {
 
     $loginModal.modal('show');
     $userNameInput.focus();
+    $(document).on('click', function () {
+      if (($loginModal.data('bs.modal') || {}).isShown) {
+        $userNameInput.focus();
+      }
+    });
   }
 
-  $loginModal.modal({ show: false });
+  $loginModal.modal({
+    backdrop: 'static',
+    show: false
+  });
 
   $logoutButton.click(function () {
     window.location = '/';
   });
 
   var username = getUrlParameter('username');
+  if (username) username = username.trim();
   if (!username) {
     promptUsername();
   }
