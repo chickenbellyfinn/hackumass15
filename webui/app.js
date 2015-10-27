@@ -81,8 +81,8 @@ app.controller('ServerDataController', function ($scope) {
 
             map.entities.push(new Microsoft.Maps.Pushpin(mloc, {
               icon: 'pumpkin.png',
-              width: 40,
-              height: 40
+              width: 30,
+              height: 30
             }));
 
             map.entities.push(new Microsoft.Maps.Polyline(_.map(locationHistory, function (l) {
